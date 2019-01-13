@@ -26,7 +26,10 @@
 			<v-toolbar-side-icon 
 				class="hidden-md-and-up" 
 				@click='sideNav = !sideNav'></v-toolbar-side-icon>
-		    <v-toolbar-title>TSL</v-toolbar-title>
+				<router-link to='/' tag='span'>
+					<v-toolbar-title>TSL</v-toolbar-title>
+				</router-link>
+		    
 		    <v-spacer></v-spacer>
 		    <v-toolbar-items class="hidden-sm-and-down">
 		      <v-btn flat v-for="(link, index) in links" 
