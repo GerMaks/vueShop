@@ -36,8 +36,9 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-					:disabled="!valid"
+					:disabled="!valid || loading"
 				    @click="validate()"
+						:loading="loading"
                 >Login</v-btn>
               </v-card-actions>
             </v-card>
@@ -64,7 +65,12 @@ export default {
     	]
 
     }
-  },
+	},
+	computed: {
+		loading () {
+			return this.$store.getters.loading
+		}
+	},
   methods: {
   	validate () {
         if (this.$refs.form.validate()) {
@@ -72,9 +78,19 @@ export default {
           	email: this.email,
           	password: this.password,
           }
-            console.log(user)
+				this.$store.dispatch('loginUser', user)
+				.then(() => {
+						this.$router.push('/')
+					})
+					.catch(() => {})
         }
-      },
+			},
+			
+			created () {
+				if(this.$route.query['loginError']) {
+					this.$store.dispatch('setError', 'Please log in to access this page')
+				}
+			}
   }
 }
 </script>

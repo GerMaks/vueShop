@@ -48,8 +48,9 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-					:disabled="!valid"
 				    @click="validate()"
+						:loading="loading"
+						:disabled="!valid || loading"
                 >Create Account</v-btn>
               </v-card-actions>
             </v-card>
@@ -90,10 +91,19 @@ export default {
           	email: this.email,
           	password: this.password,
           }
-            console.log(user)
+					this.$store.dispatch('registerUser', user)
+					.then(() => {
+						this.$router.push('/')
+					})
+					.catch(() => {})
         }
       },
-  }
+	},
+	computed: {
+		loading () {
+			return this.$store.getters.loading
+		}
+	}
 }
 </script>
 
